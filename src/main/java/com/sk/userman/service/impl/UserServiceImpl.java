@@ -1,0 +1,89 @@
+package com.sk.userman.service.impl;
+
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.sk.userman.domain.User;
+import com.sk.userman.dto.LoginDTO;
+import com.sk.userman.dto.UserDTO;
+import com.sk.userman.exception.BusinessException;
+import com.sk.userman.mapper.UserMapper;
+import com.sk.userman.service.UserService;
+import com.sk.userman.vo.UserVO;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
+
+/**
+ *
+ */
+@Service
+public class UserServiceImpl extends ServiceImpl<UserMapper, User>
+        implements UserService {
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+
+
+    @Override
+    public void register(User user) throws Exception {
+
+        User oneUser = getOne(new QueryWrapper<User>().eq("email", user.getEmail()));
+        if (oneUser == null) {
+            //进行加密
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            user.setAccountCreated(new Date());
+            user.setAccountUpdate(new Date());
+
+            save(user);
+
+
+        } else {
+            throw new BusinessException("邮箱已被注册");
+        }
+    }
+
+    @Override
+    public String login(LoginDTO loginDTO) {
+
+        User user = getOne(new QueryWrapper<User>().eq("email", loginDTO.getEmail()));
+
+
+        if (user == null) {
+            throw new BusinessException("用户不存在");
+        }
+
+        if (bCryptPasswordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
+            return "ok";
+        }
+        throw new BusinessException("用户名或密码错误");
+    }
+
+    @Override
+    public UserVO info(String username) {
+
+        User user = getOne(new QueryWrapper<User>().eq("email", username));
+        if (user == null) {
+            throw new BusinessException("获取信息失败,请先登录Fail to access information, Please log in");
+        }
+        UserVO userVO = new UserVO();
+        BeanUtils.copyProperties(user, userVO);
+        return userVO;
+
+    }
+
+    @Override
+    public void updateInfo(UserDTO userDTO) throws Exception {
+
+        User user = new User();
+        BeanUtils.copyProperties(userDTO, user);
+        user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
+        user.setAccountUpdate(new Date());
+        update(user, new LambdaUpdateWrapper<User>().eq(User::getEmail, userDTO.getEmail()));
+    }
+}
