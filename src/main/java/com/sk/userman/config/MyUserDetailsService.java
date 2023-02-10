@@ -31,7 +31,7 @@ public class MyUserDetailsService implements UserDetailsService {
         BaseContext.set(username);
         BeanUtils.copyProperties(user,user1);
         if (user == null) {
-            throw new UsernameNotFoundException("用户不存在The user do not exist.");
+            throw new UsernameNotFoundException("用户不存在User does not exist");
         }
         user1.setRoles(new ArrayList<>());
         return user1;

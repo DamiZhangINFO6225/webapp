@@ -31,11 +31,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
     @Autowired
     private MyUserDetailsService userDetailsService;
 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable();
-        // 所有的请求都要验证
-        http.authorizeRequests().antMatchers("/userman/login","/userman/register").permitAll().anyRequest().authenticated();
+        http.authorizeRequests().antMatchers("/healthz","/v1/login/login","/v1/login/register","/swagger-ui.html","/webjars/**","/swagger-resources/**","/v2/**").permitAll().anyRequest().authenticated();
         http.formLogin().successHandler(LoginSuccessHandler);
         // 使用authenticationEntryPoint验证 user/password
         http.httpBasic().authenticationEntryPoint(authEntryPoint);

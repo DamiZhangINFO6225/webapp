@@ -2,6 +2,7 @@ package com.sk.userman.exception;
 
 import com.sk.userman.utils.Result;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -28,6 +29,18 @@ public class ResultExceptionHandler {
         result.setMsg(errMsg.toString());
         return result;
     }
+    @ResponseBody
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public Result<String> resultBindExceptionHandler(HttpMessageNotReadableException e) {
+        log.error("Exception:", e);
+
+        Result<String> result = new Result<String>();
+
+        result.setCode(400);
+        result.setMsg("不能是字符串Input cannot be String");
+        return result;
+    }
+
 
     @ResponseBody
     @ExceptionHandler(BusinessException.class)

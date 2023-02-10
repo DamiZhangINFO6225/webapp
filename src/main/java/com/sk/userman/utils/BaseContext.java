@@ -13,11 +13,6 @@ public class BaseContext {
     }
 
     public static String get(){
-        String username = "";
-        try{username = threadLocal.get();
-        }finally {
-
-        }
-      return username;
+      return threadLocal.get();
     }
 }

@@ -2,7 +2,6 @@ package com.sk.userman.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sk.userman.domain.User;
 import com.sk.userman.dto.LoginDTO;
@@ -10,6 +9,7 @@ import com.sk.userman.dto.UserDTO;
 import com.sk.userman.exception.BusinessException;
 import com.sk.userman.mapper.UserMapper;
 import com.sk.userman.service.UserService;
+import com.sk.userman.utils.BCryptUtils;
 import com.sk.userman.vo.UserVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,18 +58,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             throw new BusinessException("用户不存在");
         }
 
-        if (bCryptPasswordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
+        if (BCryptUtils.matches(loginDTO.getPassword(), user.getPassword())) {
             return "ok";
         }
         throw new BusinessException("用户名或密码错误");
     }
 
     @Override
-    public UserVO info(String username) {
-
-        User user = getOne(new QueryWrapper<User>().eq("email", username));
+    public UserVO info(String userId) {
+        User user = getById(userId);
         if (user == null) {
-            throw new BusinessException("获取信息失败,请先登录Fail to access information, Please log in");
+            throw new BusinessException("获取信息失败,请先登录");
         }
         UserVO userVO = new UserVO();
         BeanUtils.copyProperties(user, userVO);
@@ -84,6 +83,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         BeanUtils.copyProperties(userDTO, user);
         user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
         user.setAccountUpdate(new Date());
-        update(user, new LambdaUpdateWrapper<User>().eq(User::getEmail, userDTO.getEmail()));
+        updateById(user);
     }
 }

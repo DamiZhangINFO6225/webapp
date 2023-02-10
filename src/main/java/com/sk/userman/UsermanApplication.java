@@ -10,7 +10,6 @@ public class UsermanApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(UsermanApplication.class, args);
-        System.out.println("run success -fister two");
         System.out.println("接口文档：http://localhost:8080/swagger-ui.html");
     }
 
