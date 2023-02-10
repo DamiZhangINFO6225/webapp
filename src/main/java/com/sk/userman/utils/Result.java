@@ -9,23 +9,23 @@ import java.io.Serializable;
  * 公共返回对象  非hashmap方式
  * @author JL.Yu
  */
-@ApiModel(value = "响应Response")
+@ApiModel(value = "响应")
 public class Result<T> implements Serializable {
     private static final long serialVersionUID = 1L;
     /**
      * 响应码：0表示成功，其他值表示失败
      */
-    @ApiModelProperty(value = "响应码:0表示成功,其他值表示失败 0.Success OtherN.Fail")
+    @ApiModelProperty(value = "响应码:0表示成功,其他值表示失败")
     private int code = 200;
     /**
      * 消息内容
      */
-    @ApiModelProperty(value = "消息内容Context")
+    @ApiModelProperty(value = "消息内容")
     private String msg = "success";
     /**
      * 响应数据
      */
-    @ApiModelProperty(value = "响应数据Response Data")
+    @ApiModelProperty(value = "响应数据")
     private T result;
 
     public Result<T> ok(T result) {
@@ -54,13 +54,13 @@ public class Result<T> implements Serializable {
 
     public Result<T> error() {
         this.code = 500;
-        this.msg = "服务器出小差啦Server is tired, Try again";
+        this.msg = "服务器出小差啦";
         return this;
     }
 
     public Result<T> error(int code) {
         this.code = code;
-        this.msg = "服务器出小差啦Server is tired, Try again";
+        this.msg = "服务器出小差啦";
         return this;
     }
 

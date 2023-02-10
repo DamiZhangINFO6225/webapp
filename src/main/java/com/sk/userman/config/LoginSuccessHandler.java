@@ -10,15 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-
+/**
+ * @Author yqq
+ * @Date 2022/05/17 17:06
+ * @Version 1.0
+ */
 @Component
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         //拿到用户的信息
         UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-        System.out.println("用户名Username：" + userDetails.getUsername());
-        System.out.println("其他信息Other Information");
+        System.out.println("用户名：" + userDetails.getUsername());
+        System.out.println("其他信息");
     }
 }
 

@@ -59,8 +59,8 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
     private ApiInfo apiInfo(){
         return new ApiInfoBuilder()
-                .title("用户管理User Administrator")
-                .description("用户管理接口文档User Administrator API")
+                .title("用户管理User Information Management")
+                .description("用户管理接口文档User API Documentation")
                 .contact(new Contact("userman","http://localhost:8080/swagger-ui.html","11111@163.com"))
                 .version("1.1.0")
                 .build();

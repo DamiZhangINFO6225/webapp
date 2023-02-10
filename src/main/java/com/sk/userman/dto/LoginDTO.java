@@ -10,17 +10,17 @@ import javax.validation.constraints.NotBlank;
 /**
  * 登录实体
  *
- * @author: zdm
+ * @author: zsc
  * @create: 2023-01-29 20:25
  **/
 @Data
-@ApiModel(value = "登录接收实体Login reception body")
+@ApiModel(value = "登录接收实体Login entity")
 public class LoginDTO {
     @ApiModelProperty(value = "邮箱Email")
     @Email
     private String email;
 
-    @NotBlank(message = "密码不能为空No empty input")
+    @NotBlank(message = "密码不能为空Password cannot be empty")
     @ApiModelProperty(value = "密码Password")
     private String password;
 }
