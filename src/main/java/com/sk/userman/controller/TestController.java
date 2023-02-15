@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
 
-    GetMapping("healthz")
+    @GetMapping("healthz")
     public Result healthz(){
         return new Result().ok("运行成功Run in good");
     }
