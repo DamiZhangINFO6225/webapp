@@ -43,6 +43,6 @@ jobs:
       - name: Verify userman DB exists
         run: mysql --host 127.0.0.1 --port 3306 -uroot -proot -e "SHOW DATABASES LIKE 'userman'"
 
-#      - name: Build with maven
-#        run: mvn --batch -mode --update -snapshots package
+      - name: Build with maven
+        run: mvn --batch -mode --update -snapshots package
 
