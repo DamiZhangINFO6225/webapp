@@ -6,7 +6,6 @@
 # # separate terms of service, privacy policy, and support
 # # documentation.
 
-
 name: webapp
 
 on:
@@ -49,10 +48,9 @@ jobs:
           subnet-id: subnet-00c4429d5a8a63150
           security-group-ids: sg-071d2f33f7aec1ae2
           user-data: |
-      #!/bin/bash
-      echo "Starting application..."
-      # Start the application
-
+            #!/bin/bash
+            echo "Starting application..."
+            # Start the application
 
 # name: webapp
 
