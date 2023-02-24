@@ -36,7 +36,7 @@ jobs:
         run: mvn clean package
 
       - name: Create AMI
-        uses: hashicorp/packer-github-actions@v3.5.1
+        uses: hashicorp/packer-github-actions@master
         with:
           packer-template: ./packer-template.json
           packer-variables: ./packer-variables.json
@@ -46,12 +46,12 @@ jobs:
         with:
           image-id: ${{ steps.create-ami.outputs.ami-id }}
           instance-type: t2.micro
-          subnet-id: subnet-12345678
-          security-group-ids: sg-12345678
+          subnet-id: subnet-00c4429d5a8a63150
+          security-group-ids: sg-071d2f33f7aec1ae2
           user-data: |
-            #!/bin/bash
-            echo "Starting application..."
-            # Start the application
+      #!/bin/bash
+      echo "Starting application..."
+      # Start the application
 
 
 # name: webapp
